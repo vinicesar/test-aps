@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { date, z } from "zod";
+import { z } from "zod";
 import { validaCNPJ } from "./utils/cnpj";
 import { createPessoa } from "./services/createPessoa";
 import { getPessoas } from "./services/getPessoas";
@@ -37,7 +37,7 @@ PessoaRouter.get("/", async (req, res) => {
       success: false
     })
   }
-}); // buscando
+}); 
 
 PessoaRouter.post("/", async (req, res) => {
   const result = schemaPostPessoa.safeParse(req.body);
@@ -60,7 +60,7 @@ PessoaRouter.post("/", async (req, res) => {
       success: false
       })
   }
-}); //criando
+}); 
 
 PessoaRouter.put("/:id", async (req, res) => {
 
@@ -91,7 +91,7 @@ PessoaRouter.put("/:id", async (req, res) => {
       success: false
       })
   }
-}); // editando
+}); 
 
 PessoaRouter.delete("/:id", async (req, res) => {
   const idPessoaDeletada = z.object({ id: z.coerce.number().min(1)}).safeParse(req.params)
@@ -114,4 +114,4 @@ PessoaRouter.delete("/:id", async (req, res) => {
     })
   }
 
-}); //deletando
+}); 
