@@ -1,20 +1,50 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import schemaRegister from "../utils/ShemaRegister";
-import {z} from "zod"
+import { optionsUF } from "../utils/UFoptions";
+import { useLocation } from "react-router-dom";
+import { Pessoa } from "../utils/ShemaRegister";
 
-export type PessoaField = z.infer <typeof schemaRegister>
 
 function FormClient() {
+
+  const location = useLocation()
+  const state = location.state as Pessoa
+
   const {
     control,
     handleSubmit,
-  } = useForm<PessoaField>({resolver: zodResolver(schemaRegister)});
+  } = useForm({resolver: zodResolver(schemaRegister), defaultValues: state? {
+    nome:state.nome,
+    nomeFantasia: state.nomeFantasia,
+    cnpj: state.cnpj,
+    cep: state.cep,
+    cidade: state.cidade,
+    UF: {label:"" , value:state.UF},
+    logradouro: state.logradouro,
+    bairro: state.bairro,
+    complemento:state.complemento ,
+    email: state.email,
+    telefone: state.telefone,
+  } : {
+    nome:"",
+    nomeFantasia: "",
+    cnpj: "",
+    cep: "",
+    cidade: "",
+    UF: null,
+    logradouro: "",
+    bairro: "",
+    complemento:"" ,
+    email: "",
+    telefone: "",
+  } });
 
-   function getForm (data: PessoaField){
-    console.log(data)
+   function getForm<PessoaField>(userData: PessoaField){
+    console.log(userData) 
   }
+
 
   return (
     <>
@@ -32,104 +62,88 @@ function FormClient() {
         <Controller
           name="cnpj"
           control={control}
-          defaultValue=""
-          rules={{ required: "CNPJ obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="CNPJ" variant="filled" required />
+          render={({ field , fieldState}) => (
+            <TextField {...field} label="CNPJ" variant="filled"  helperText={fieldState.error?.message}/>
           )}
         />
         <Controller
           name="nome"
           control={control}
-          defaultValue=""
-          rules={{ required: "Nome e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Nome" variant="filled" required />
+          render={({ field , fieldState}) => (
+            <TextField {...field} label="Nome" variant="filled" helperText={fieldState.error?.message} />
           )}
         />
         <Controller
           name="nomeFantasia"
           control={control}
-          defaultValue=""
-          rules={{ required: "Nome Fantasia e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Nome fantasia" variant="filled" required />
+          render={({ field , fieldState }) => (
+            <TextField {...field} label="Nome fantasia" variant="filled" helperText={fieldState.error?.message} />
           )}
         />
         <Controller
           name="cep"
           control={control}
-          defaultValue=""
-          rules={{ required: "Cep e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Cep" variant="filled" required />
+          render={({ field , fieldState }) => (
+            <TextField {...field} label="Cep" variant="filled"  helperText={fieldState.error?.message} />
           )}
         />
         <Controller
           name="logradouro"
           control={control}
-          defaultValue=""
-          rules={{ required: "Logradouro e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Logradouro" variant="filled" required />
+          render={({ field , fieldState }) => (
+            <TextField {...field} label="Logradouro" variant="filled" helperText={fieldState.error?.message} />
           )}
         />
         <Controller
           name="bairro"
           control={control}
-          defaultValue=""
-          rules={{ required: "Bairro e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Bairro" variant="filled" required />
+          render={({ field, fieldState }) => (
+            <TextField {...field} label="Bairro" variant="filled"  helperText={fieldState.error?.message} />
           )}
         />
         <Controller
           name="cidade"
           control={control}
-          defaultValue=""
-          rules={{ required: "Cidade e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Cidade" variant="filled" required />
+          render={({ field, fieldState}) => (
+            <TextField {...field} label="Cidade" variant="filled"  helperText={fieldState.error?.message} />
           )}
-        />{" "}
+        />
         <Controller
           name="UF"
           control={control}
-          defaultValue=""
-          rules={{ required: "UF e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="UF" variant="filled" required />
+          render={({ field, fieldState}) => (
+            <Autocomplete
+            options={optionsUF}
+            value={field.value}
+            onChange={(_, value) => field.onChange(value)}
+            renderInput={(parms) =>(
+              <TextField {...parms} label="UF" variant="filled"  helperText={fieldState.error?.message} />
+            )}/>
           )}
         />
         <Controller
           name="complemento"
           control={control}
-          defaultValue=""
-          rules={{ required: "Complemento e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Complemento" variant="filled" required />
+          render={({ field, fieldState }) => (
+            <TextField {...field} label="Complemento" variant="filled"  helperText={fieldState.error?.message} />
           )}
         />
         <Controller
           name="email"
           control={control}
-          defaultValue=""
-          rules={{ required: "Email e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Email" variant="filled" required />
+          render={({ field , fieldState }) => (
+            <TextField {...field} label="Email" variant="filled"   helperText={fieldState.error?.message} />
           )}
         />
         <Controller
           name="telefone"
           control={control}
-          defaultValue=""
-          rules={{ required: "Telefone e obrigatorio" }}
-          render={({ field }) => (
-            <TextField {...field} label="Telefone" variant="filled" required />
+          render={({ field, fieldState }) => (
+            <TextField {...field} label="Telefone" variant="filled"  helperText={fieldState.error?.message} />
           )}
         />
         <Button type="submit" variant="contained">
-          Enviar
+          {state? "Editar" : "Enviar"}
         </Button>
       </Box>
     </>

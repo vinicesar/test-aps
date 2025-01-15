@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { validCNPJ } from "./validaCnpj";
 
-const schemaRegister = z.object({
+ export const schemaRegister = z.object({
   cnpj: z
   .string()
   .refine((val) => validCNPJ(val), { message: "cnpj invalido" }),
@@ -52,4 +52,20 @@ const schemaRegister = z.object({
     .min(1, { message: "Campo Nome e obrigatorio" })
     .max(15, { message: "maximo de 15 caracteres" }),
 })
+
+export type Pessoa = {
+    nome: string
+    nomeFantasia: string
+    cnpj: string
+    cep: string
+    cidade: string
+    UF: string
+    logradouro: string
+    bairro: string
+    complemento: string
+    email: string
+    telefone: string
+}
+
+
 export default schemaRegister

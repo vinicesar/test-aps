@@ -3,8 +3,8 @@ import { AppDataSource } from "./data-source";
 import { PessoaRouter } from "./routes";
 const app = express();
 
-app.use(express.json()); 
-app.use(PessoaRouter)
+app.use(express.json()); // transforma dados enviados como json em um objeto comum js
+app.use(PessoaRouter) // passando o esquema de rotas 
 
 AppDataSource.initialize()
   .then(() => {

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { validaCNPJ } from "./utils/cnpj";
+import { validCNPJ } from "./utils/cnpj";
 import { createPessoa } from "./services/createPessoa";
 import { getPessoas } from "./services/getPessoas";
 import { editPessoa } from "./services/editPessoa"
@@ -9,10 +9,10 @@ import { deletePessoa } from "./services/deletePessoa";
 export const schemaPostPessoa = z.object({
   cnpj: z
     .string()
-    .refine((val) => validaCNPJ(+val), { message: "cnpj invalido" }),
+    .refine((val) => validCNPJ(val), { message: "cnpj invalido" }),
   nome: z.string().max(100),
   nomeFantasia: z.string().max(100),
-  cep: z.string().length(10),
+  cep: z.string().max(10),
   logradouro: z.string().max(100),
   bairro: z.string().max(100),
   cidede: z.string().max(100),
@@ -23,6 +23,8 @@ export const schemaPostPessoa = z.object({
 });
 
 export const PessoaRouter = Router();
+
+
 PessoaRouter.get("/", async (req, res) => {
   try {
     const todasAsPessoas = await getPessoas()

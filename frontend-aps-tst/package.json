@@ -1,4 +1,4 @@
-{
+{ "proxy": "https://www.cnpj.ws/",
   "name": "frontend-aps-tst",
   "private": true,
   "version": "0.0.0",
@@ -15,6 +15,7 @@
     "@hookform/resolvers": "^3.10.0",
     "@mui/material": "^6.3.1",
     "@mui/styled-engine-sc": "^6.3.1",
+    "axios": "^1.7.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
