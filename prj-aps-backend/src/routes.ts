@@ -43,12 +43,11 @@ PessoaRouter.get("/cnpj/:cnpj", async (req, res) => {
 
         return
     } catch (err) {
-
+        console.log(err)
     }
 });
 
 PessoaRouter.get('/cep/:cep', async (req, res) => {
-    console.log("CHEGOU NA ROTA CERTA DE CEP")
     const { cep } = req.params
 
     if (!cep) {
@@ -68,7 +67,7 @@ PessoaRouter.get('/cep/:cep', async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: err,
-            message: "Erro ao buscar pessoas",
+            message: "Erro ao buscar cep",
             success: false
         })
     }
@@ -126,15 +125,12 @@ PessoaRouter.put("/:id", async (req, res) => {
         return;
     }
 
-    // id eh sempre string entao qualquer coisa seria verdadeiro pois
-    // !!"seila string" === true
     if (!Number(id)) {
         res.status(400).json({ message: "Id invalido" });
         return;
     }
 
     try {
-        // tem que transformar o id para number pois no banco o id eh um integer
         const pessoaEditada = await editPessoa(Number(id), resultValidationBody.data);
 
         res.status(200).json({
@@ -151,7 +147,7 @@ PessoaRouter.put("/:id", async (req, res) => {
 });
 
 PessoaRouter.delete("/:id", async (req, res) => {
-    const idPessoaDeletada = z.object({ id: z.coerce.number().min(1) }).safeParse(req.params)
+    const idPessoaDeletada = z.object({ id: z.coerce.number().min(1) }).safeParse(req.params) 
 
     if (!idPessoaDeletada.success) {
         res.status(400).json({ message: "Id invalido" });

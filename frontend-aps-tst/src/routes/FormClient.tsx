@@ -1,5 +1,5 @@
 import { Autocomplete, Grid2 as Grid, Button, TextField } from "@mui/material";
-import { Controller, useForm, Form } from "react-hook-form";
+import { Controller, useForm, Form, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import schemaRegister, { PessoaFormInitialValues, PessoaFormResult } from "../utils/ShemaRegister";
 import { optionsUF } from "../utils/UFoptions";
@@ -19,7 +19,6 @@ function FormClient() {
 
     const {
         control,
-        watch,
         formState: { errors },
         getValues,
         reset
@@ -28,17 +27,17 @@ function FormClient() {
             ...state,
             UF: optionsUF.find(opt => opt.value === state.UF)!
         } : {
-            nome: "testando vini",
-            nomeFantasia: "testandoop",
-            cnpj: "13.681.235/0001-38",
-            cep: "51190-610",
-            cidade: "recife",
-            UF: { label: "PERNAMBUCO", value: "PE" },
-            logradouro: "Rua tua mae",
-            bairro: "ai dentooooooooooo",
-            complemento: "aseiajaksdjas",
-            email: "email@email.com",
-            telefone: "5581994147153",
+            nome: "",
+            nomeFantasia: "",
+            cnpj: "",
+            cep: "",
+            cidade: "",
+            UF: { label: "", value: "" },
+            logradouro: "",
+            bairro: "",
+            complemento: "",
+            email: "",
+            telefone: "",
         }
     });
 
@@ -52,9 +51,8 @@ function FormClient() {
         }
     }
 
-    const cnpj = watch('cnpj')
-
-    const cep = watch('cep')
+    const cnpj = useWatch({ control, name: 'cnpj' })
+    const cep = useWatch({ control, name: 'cep' })
 
     useEffect(() => {
         const cnpjApenasNum = cnpj?.replace(/\D/g, '')
@@ -109,6 +107,7 @@ function FormClient() {
         }
     }, [cep, errors.cep])
 
+
     return (
         <>
             <Form<PessoaFormInitialValues, PessoaFormResult> control={control} onSubmit={({ data }) => { handleSubmit(data) }}>
@@ -123,6 +122,7 @@ function FormClient() {
                                     fullWidth
                                     label="CNPJ"
                                     variant="filled"
+                                    error={fieldState.invalid}
                                     helperText={fieldState.error?.message}
                                 />
                             )}
@@ -133,7 +133,7 @@ function FormClient() {
                             name="nome"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Nome" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} error={fieldState.invalid} fullWidth label="Nome" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -142,7 +142,7 @@ function FormClient() {
                             name="nomeFantasia"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Nome fantasia" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Nome fantasia" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -151,7 +151,7 @@ function FormClient() {
                             name="cep"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Cep" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Cep" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -160,7 +160,7 @@ function FormClient() {
                             name="logradouro"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Logradouro" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Logradouro" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -169,7 +169,7 @@ function FormClient() {
                             name="bairro"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Bairro" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Bairro" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -178,7 +178,7 @@ function FormClient() {
                             name="cidade"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Cidade" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Cidade" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -192,7 +192,7 @@ function FormClient() {
                                     value={field.value}
                                     onChange={(_, value) => field.onChange(value)}
                                     renderInput={(parms) => (
-                                        <TextField {...parms} fullWidth label="UF" variant="filled" helperText={fieldState.error?.message} />
+                                        <TextField {...parms} fullWidth error={fieldState.invalid} label="UF" variant="filled" helperText={fieldState.error?.message} />
                                     )} />
                             )}
                         />
@@ -202,7 +202,7 @@ function FormClient() {
                             name="complemento"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Complemento" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Complemento" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -211,7 +211,7 @@ function FormClient() {
                             name="email"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Email" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Email" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>
@@ -220,7 +220,7 @@ function FormClient() {
                             name="telefone"
                             control={control}
                             render={({ field, fieldState }) => (
-                                <TextField {...field} fullWidth label="Telefone" variant="filled" helperText={fieldState.error?.message} />
+                                <TextField {...field} fullWidth error={fieldState.invalid} label="Telefone" variant="filled" helperText={fieldState.error?.message} />
                             )}
                         />
                     </Grid>

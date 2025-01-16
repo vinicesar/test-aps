@@ -6,8 +6,8 @@ import cors from "cors";
 const app = express();
 
 app.use(cors({ origin: "*" }))
-app.use(express.json()); // transforma dados enviados como json em um objeto comum js
-app.use(PessoaRouter) // passando o esquema de rotas 
+app.use(express.json());
+app.use(PessoaRouter) 
 
 AppDataSource.initialize()
     .then(() => {
