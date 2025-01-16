@@ -6,11 +6,11 @@ import ListClient from "./ListClient"
 
 const router = createBrowserRouter([
     {
-        path:"/",
-        element: <App/>, 
+        path: "/",
+        element: <App />,
         children: [
-            {path: "/" ,  element: <FormClient/>},
-            {path: "/list" , element: <ListClient/>}
+            { path: "/form", element: <FormClient /> },
+            { index: true, element: <ListClient /> }
         ]
     }
 ])

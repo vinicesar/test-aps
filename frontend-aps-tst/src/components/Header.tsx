@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom"
 
 
-function  Header(){
-    return(
+function Header() {
+    return (
         <>
-        <header style={{
-            display: "flex", 
-            gap: "1rem",
-            width: "100%"
-        }}>
-            <Link to="/">Cadastro</Link>
-            <Link to="/list">Lista de Clientes</Link>
-        </header>
-        <hr />
+            <header style={{
+                display: "flex",
+                gap: "1rem",
+                width: "100%"
+            }}>
+                <Link to="/">Lista de Clientes</Link>
+                <Link to="/form">Cadastro</Link>
+            </header>
+            <hr />
         </>
     )
-        
+
 }
 
 export default Header

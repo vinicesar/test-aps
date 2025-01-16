@@ -1,42 +1,41 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-
-@Entity("pessoa") 
+@Entity("pessoa")
 
 export class Pessoa {
     @PrimaryGeneratedColumn("increment")
     id: number
 
-    @Column()
+    @Column({ length: 14 })
     cnpj: string
 
-    @Column()
+    @Column({ length: 100 })
     nome: string
 
-    @Column()
+    @Column({ length: 100 })
     nomeFantasia: string
 
-    @Column()
+    @Column({ length: 10 })
     cep: string
 
-    @Column()
+    @Column({ length: 100 })
     logradouro: string
 
-    @Column()
+    @Column({ length: 100 })
     bairro: string
 
-    @Column()
+    @Column({ length: 100 })
     cidade: string
 
-    @Column()
+    @Column({ length: 2 })
     UF: string
 
-    @Column()
+    @Column({ length: 100 })
     complemento: string
 
-    @Column()
-    email:string
+    @Column({ length: 100 })
+    email: string
 
-    @Column()
-    telefone:string
+    @Column({ length: 15 })
+    telefone: string
 }
